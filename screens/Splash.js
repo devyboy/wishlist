@@ -3,7 +3,7 @@ import { View, Text } from 'react-native'
 import {
   Layout,
   Button,
-  ClearButton
+  ClearButton,
 } from '../components/themed/ThemedComponents'
 import { useTheme } from '../contexts/ThemeContext'
 import { StatusBar } from 'expo-status-bar'
@@ -11,6 +11,13 @@ import { TouchableOpacity } from 'react-native'
 
 const Splash = ({ navigation }) => {
   const { colors } = useTheme()
+
+  const getData = async () => {
+    await fetch('https://cors-anywhere.herokuapp.com/https://www.google.com/').
+      then(res => res.text()).
+      then(res => console.log(res)).
+      catch(err => console.error(err))
+  }
 
   const goToSignIn = () => {
     navigation.navigate('SignIn')
@@ -23,7 +30,7 @@ const Splash = ({ navigation }) => {
   const styles = {
     logoButtons: {
       flex: 1.75,
-      justifyContent: 'flex-end'
+      justifyContent: 'flex-end',
     },
     logoText: {
       fontSize: 75,
@@ -31,18 +38,18 @@ const Splash = ({ navigation }) => {
       fontWeight: '500',
       letterSpacing: 1.5,
       marginBottom: 30,
-      color: colors.text.header
+      color: colors.text.header,
     },
 
     whatisContainer: {
       flex: 1,
       justifyContent: 'flex-end',
-      paddingBottom: 50
+      paddingBottom: 50,
     },
     whatis: {
       alignSelf: 'center',
-      color: colors.text.subtitle
-    }
+      color: colors.text.subtitle,
+    },
   }
 
   return (
@@ -52,6 +59,7 @@ const Splash = ({ navigation }) => {
         <Text style={styles.logoText}>Wishlist</Text>
         <Button label='Register' onPress={goToRegister} capped />
         <ClearButton label='Sign in' onPress={goToSignIn} noMargin />
+        <ClearButton label='Test' onPress={getData} noMargin />
       </View>
       <View style={styles.whatisContainer}>
         <TouchableOpacity>
