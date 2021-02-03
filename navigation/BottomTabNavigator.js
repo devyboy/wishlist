@@ -3,12 +3,12 @@ import { MaterialIcons } from '@expo/vector-icons'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { createStackNavigator } from '@react-navigation/stack'
 import Search from '../screens/Search'
-import Wishlist from '../screens/Wishlist'
+import List from '../screens/List'
 import { useTheme } from '../contexts/ThemeContext'
 
 const BottomTab = createBottomTabNavigator()
 const SearchStack = createStackNavigator()
-const WishlistStack = createStackNavigator()
+const ListStack = createStackNavigator()
 
 const TabBarIcon = (props) => {
   return <MaterialIcons size={25} {...props} />
@@ -77,7 +77,7 @@ const BottomTabNavigator = ({ navigation }) => {
       </BottomTab.Screen>
 
       <BottomTab.Screen
-        name='Wishlist'
+        name='List'
         options={{
           tabBarIcon: ({ color }) => (
             <TabBarIcon name='format-list-bulleted' color={color} />
@@ -85,9 +85,9 @@ const BottomTabNavigator = ({ navigation }) => {
         }}
       >
         {() => (
-          <WishlistStack.Navigator screenOptions={defaultScreenOptions}>
-            <WishlistStack.Screen name='Wishlist' component={Wishlist} />
-          </WishlistStack.Navigator>
+          <ListStack.Navigator screenOptions={defaultScreenOptions}>
+            <ListStack.Screen name='Saved items' component={List} />
+          </ListStack.Navigator>
         )}
       </BottomTab.Screen>
     </BottomTab.Navigator>

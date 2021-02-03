@@ -13,7 +13,7 @@ export default {
     elevated: '#FFF',
     error: '#FF4545',
     shadow: 'rgba(0,0,0,0.2)',
-    divider: '#CCC',
+    divider: '#DDD',
     scrollIndicator: 'black',
     accent: accentLight
   },

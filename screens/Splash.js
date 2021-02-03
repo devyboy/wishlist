@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, StyleSheet, Text } from 'react-native'
+import { View, Text } from 'react-native'
 import {
   Layout,
   Button,
@@ -20,7 +20,7 @@ const Splash = ({ navigation }) => {
     navigation.navigate('Register')
   }
 
-  const styles = StyleSheet.create({
+  const styles = {
     logoButtons: {
       flex: 1.75,
       justifyContent: 'flex-end'
@@ -43,7 +43,7 @@ const Splash = ({ navigation }) => {
       alignSelf: 'center',
       color: colors.text.subtitle
     }
-  })
+  }
 
   return (
     <Layout noScroll>

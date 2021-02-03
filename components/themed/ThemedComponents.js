@@ -28,7 +28,7 @@ const customTextStyles = {
     lineHeight: 28
   },
   subtitle: {
-    fontSize: 15,
+    fontSize: 13,
     fontWeight: '400'
   }
 }
@@ -196,5 +196,17 @@ export const Input = ({ aref, prefix, ...rest }) => {
 }
 
 export const Wishlist = () => (
-  <Text style={[customTextStyles.body]}>Wishlist</Text>
+  <Text style={[customTextStyles.body, { color: useThemeColor('accent') }]}>
+    Wishlist
+  </Text>
+)
+
+export const Divider = () => (
+  <View
+    style={{
+      height: 1,
+      backgroundColor: useThemeColor('divider'),
+      marginVertical: 15
+    }}
+  />
 )

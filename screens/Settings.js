@@ -1,6 +1,6 @@
 import React from 'react'
 import { Layout, Text } from '../components/themed/ThemedComponents'
-import { Switch, StyleSheet } from 'react-native'
+import { Switch } from 'react-native'
 import { ListItem } from 'react-native-elements'
 import { useTheme } from '../contexts/ThemeContext'
 
@@ -29,7 +29,7 @@ const Settings = ({ navigation }) => {
     </Text>
   )
 
-  const styles = StyleSheet.create({
+  const styles = {
     listItem: {
       backgroundColor: colors.background,
       borderBottomColor: colors.divider,
@@ -41,7 +41,7 @@ const Settings = ({ navigation }) => {
     signOutTitle: {
       color: colors.error
     }
-  })
+  }
 
   return (
     <Layout noPadding>
