@@ -41,7 +41,7 @@ const BottomSheetModal = ({ navigation }) => {
         }}
       >
         <DragHandle />
-        <Text variant='body'>Swipe down to close</Text>
+        <Text variant='body'>Swipe down to close or up to expand.</Text>
       </View>
     </View>
   )

@@ -10,7 +10,7 @@ export default function TabOneScreen({ navigation }) {
   return (
     <Layout>
       <StatusBar style={isDark ? 'dark' : 'light'} />
-      <Text variant='header'>Home</Text>
+      <Text variant='header'>Wishlist</Text>
       <Text variant='subheader'>Subheader</Text>
       <Text variant='body'>Body</Text>
       <Text variant='subtitle'>Subtitle</Text>

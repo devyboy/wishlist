@@ -3,7 +3,7 @@ import { MaterialIcons } from '@expo/vector-icons'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { createStackNavigator } from '@react-navigation/stack'
 import Home from '../screens/Home'
-import Wishlist from '../screens/Home'
+import Wishlist from '../screens/Wishlist'
 import { useTheme } from '../contexts/ThemeContext'
 
 const BottomTab = createBottomTabNavigator()
