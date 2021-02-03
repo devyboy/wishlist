@@ -3,14 +3,14 @@ import Colors from '../constants/Colors'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
 export const ThemeContext = React.createContext({
-  isDark: true,
-  colorTheme: 'dark',
-  colors: Colors['dark'],
+  isDark: false,
+  colorTheme: 'light',
+  colors: Colors['light'],
   toggleTheme: () => {}
 })
 
 export const ThemeProvider = (props) => {
-  const [isDark, setIsDark] = React.useState(true)
+  const [isDark, setIsDark] = React.useState(false)
   const colorTheme = isDark ? 'dark' : 'light'
 
   React.useEffect(() => {

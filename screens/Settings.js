@@ -1,5 +1,5 @@
 import React from 'react'
-import { Layout, Text } from '../components/ThemedComponents'
+import { Layout, Text } from '../components/themed/ThemedComponents'
 import { Switch, StyleSheet } from 'react-native'
 import { ListItem } from 'react-native-elements'
 import { useTheme } from '../contexts/ThemeContext'

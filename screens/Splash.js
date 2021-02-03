@@ -1,6 +1,10 @@
 import React from 'react'
 import { View, StyleSheet, Text } from 'react-native'
-import { Layout, Button, ClearButton } from '../components/ThemedComponents'
+import {
+  Layout,
+  Button,
+  ClearButton
+} from '../components/themed/ThemedComponents'
 import { useTheme } from '../contexts/ThemeContext'
 import { StatusBar } from 'expo-status-bar'
 import { TouchableOpacity } from 'react-native'

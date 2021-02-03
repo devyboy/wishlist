@@ -11,7 +11,7 @@ import {
   Card as DefaultCard,
   Input as DefaultInput
 } from 'react-native-elements'
-import { useTheme } from '../contexts/ThemeContext'
+import { useTheme } from '../../contexts/ThemeContext'
 
 const customTextStyles = {
   header: {

@@ -6,7 +6,7 @@ import {
   Layout,
   Input,
   Text
-} from '../components/ThemedComponents'
+} from '../components/themed/ThemedComponents'
 import { View } from 'react-native'
 
 const SignIn = ({ navigation }) => {

@@ -2,13 +2,12 @@ import React from 'react'
 import { MaterialIcons } from '@expo/vector-icons'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { createStackNavigator } from '@react-navigation/stack'
-import Home from '../screens/Home'
+import Search from '../screens/Search'
 import Wishlist from '../screens/Wishlist'
 import { useTheme } from '../contexts/ThemeContext'
 
 const BottomTab = createBottomTabNavigator()
-
-const HomeStack = createStackNavigator()
+const SearchStack = createStackNavigator()
 const WishlistStack = createStackNavigator()
 
 const TabBarIcon = (props) => {
@@ -54,7 +53,7 @@ const BottomTabNavigator = ({ navigation }) => {
 
   return (
     <BottomTab.Navigator
-      initialRouteName='Home'
+      initialRouteName='Search'
       tabBarOptions={{
         labelPosition: 'below-icon',
         activeTintColor: colors.accent,
@@ -65,15 +64,15 @@ const BottomTabNavigator = ({ navigation }) => {
       }}
     >
       <BottomTab.Screen
-        name='Home'
+        name='Search'
         options={{
-          tabBarIcon: ({ color }) => <TabBarIcon name='home' color={color} />
+          tabBarIcon: ({ color }) => <TabBarIcon name='search' color={color} />
         }}
       >
         {() => (
-          <HomeStack.Navigator screenOptions={defaultScreenOptions}>
-            <HomeStack.Screen name='Home' component={Home} />
-          </HomeStack.Navigator>
+          <SearchStack.Navigator screenOptions={defaultScreenOptions}>
+            <SearchStack.Screen name='Search' component={Search} />
+          </SearchStack.Navigator>
         )}
       </BottomTab.Screen>
 
@@ -81,7 +80,7 @@ const BottomTabNavigator = ({ navigation }) => {
         name='Wishlist'
         options={{
           tabBarIcon: ({ color }) => (
-            <TabBarIcon name='show-chart' color={color} />
+            <TabBarIcon name='format-list-bulleted' color={color} />
           )
         }}
       >

@@ -1,7 +1,7 @@
 import React from 'react'
 import { View } from 'react-native'
 import { useTheme } from '../contexts/ThemeContext'
-import { Text, Layout, Button } from '../components/ThemedComponents'
+import { Text, Layout, Button } from '../components/themed/ThemedComponents'
 import { StatusBar } from 'expo-status-bar'
 
 export default function TabOneScreen({ navigation }) {

@@ -1,6 +1,6 @@
 import React from 'react'
 import { useTheme } from '../contexts/ThemeContext'
-import { Text } from '../components/ThemedComponents'
+import { Text } from './themed/ThemedComponents'
 import { View, TouchableWithoutFeedback } from 'react-native'
 import BottomSheet from 'reanimated-bottom-sheet'
 
@@ -56,7 +56,7 @@ const BottomSheetModal = ({ navigation }) => {
         initialSnap={1}
         borderRadius={16}
         onCloseEnd={closeSheet}
-        snapPoints={['75%', '50%', 0]}
+        snapPoints={['80%', '55%', 0]}
         renderContent={renderContent}
         renderHeader={renderHeader}
         overdragResistanceFactor={0}

@@ -7,7 +7,7 @@ import {
   Layout,
   Input,
   Text
-} from '../components/ThemedComponents'
+} from '../components/themed/ThemedComponents'
 
 const Register = ({ navigation }) => {
   const [loading, setLoading] = React.useState(false)
