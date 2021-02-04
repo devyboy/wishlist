@@ -14,8 +14,6 @@ app.get('/', (_req, res) => {
   res.send('🎉 Hello Wishlist! 🎉');
 });
 
-
-
 app.get('/resolver/:txt(.?*)',  (req, res) => {
   res.send("URL is " + req.params.txt)
 })
