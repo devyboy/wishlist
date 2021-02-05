@@ -5,14 +5,11 @@ import { createStackNavigator } from '@react-navigation/stack'
 import Search from '../screens/Search'
 import List from '../screens/List'
 import { useTheme } from '../contexts/ThemeContext'
+import { TouchableOpacity } from 'react-native'
 
 const BottomTab = createBottomTabNavigator()
 const SearchStack = createStackNavigator()
 const ListStack = createStackNavigator()
-
-const TabBarIcon = (props) => {
-  return <MaterialIcons size={25} {...props} />
-}
 
 const BottomTabNavigator = ({ navigation }) => {
   const { colors } = useTheme()
@@ -42,12 +39,14 @@ const BottomTabNavigator = ({ navigation }) => {
       shadowColor: colors.divider
     },
     headerRight: () => (
-      <TabBarIcon
-        name='more-vert'
-        color={colors.background}
-        style={{ marginRight: 15 }}
-        onPress={goToSettings}
-      />
+      <TouchableOpacity onPress={goToSettings}>
+        <MaterialIcons
+          name='settings'
+          size={25}
+          color={colors.background}
+          style={{ marginRight: 15 }}
+        />
+      </TouchableOpacity>
     )
   }
 
@@ -66,7 +65,9 @@ const BottomTabNavigator = ({ navigation }) => {
       <BottomTab.Screen
         name='Search'
         options={{
-          tabBarIcon: ({ color }) => <TabBarIcon name='search' color={color} />
+          tabBarIcon: ({ color }) => (
+            <MaterialIcons name='search' color={color} size={25} />
+          )
         }}
       >
         {() => (
@@ -79,8 +80,13 @@ const BottomTabNavigator = ({ navigation }) => {
       <BottomTab.Screen
         name='List'
         options={{
+          unmountOnBlur: true,
           tabBarIcon: ({ color }) => (
-            <TabBarIcon name='format-list-bulleted' color={color} />
+            <MaterialIcons
+              name='format-list-bulleted'
+              color={color}
+              size={25}
+            />
           )
         }}
       >
