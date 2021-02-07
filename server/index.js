@@ -56,8 +56,10 @@ app.get('/resolver/:txt(.?*)', (req, _res) => {
           images.push(val.src)
         })
 
+        // TODO ignore svg paths etc, as well as handle case there are not any prices
         const price = doc.body.innerHTML.match(
           '(\\d+\\.\\d{1,2})')[0]
+
 
         _res.send({
           'title': title,
