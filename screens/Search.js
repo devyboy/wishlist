@@ -7,7 +7,7 @@ import {
   Layout,
   Divider,
   Button,
-  Card,
+  Card
 } from '../components/themed/ThemedComponents'
 import { StatusBar } from 'expo-status-bar'
 import AsyncStorage from '@react-native-async-storage/async-storage'
@@ -25,36 +25,39 @@ const Search = ({ navigation }) => {
     setItem()
     setSaved(false)
     setLoading(true)
-    fetch(`http://localhost:8081/resolver/${url}`).then((res) =>
-      res.json().then(({ title, price }) => {
-        const cleanTitle = title.slice(
-          title.indexOf(':') + 2,
-          title.lastIndexOf(':'),
-        )
-        const category = title.slice(
-          title.lastIndexOf(':') + 2,
-          title.length + 1,
-        )
+    fetch(`http://localhost:8081/resolver/${url}`)
+      .then((res) =>
+        res.json().then((res) => {
+          console.log(res)
+          // const category = metaTitle.slice(
+          //   metaTitle.lastIndexOf(':') + 2,
+          //   metaTitle.length + 1
+          // )
 
-        setLoading(false)
-        setItem({
-          title: cleanTitle,
-          category,
-          price: price,
+          // setLoading(false)
+          // setItem({
+          //   title: title.trim(),
+          //   description,
+          //   category,
+          //   price
+          // })
         })
-      }),
-    ).catch((err) => {
-      console.log(err)
-      setLoading(false)
-    })
+      )
+      .catch((err) => {
+        console.log(err)
+        setLoading(false)
+      })
   }
 
   const addToFavorites = () => {
     AsyncStorage.getItem('favorites').then((favs) => {
       AsyncStorage.setItem(
         'favorites',
-        JSON.stringify(favs ? [...JSON.parse(favs), item] : [item]),
-      ).then(() => setSaved(true))
+        JSON.stringify(favs ? [...JSON.parse(favs), item] : [item])
+      ).then(() => {
+        setSaved(true)
+        setTimeout(() => setSaved(false), 5000)
+      })
     })
   }
 
@@ -74,17 +77,17 @@ const Search = ({ navigation }) => {
       borderBottomWidth: 0,
       shadowColor: '#000',
       shadowOffset: {
-        height: 2,
+        height: 2
       },
       shadowOpacity: 0.15,
       shadowRadius: 5,
-      elevation: 2,
+      elevation: 2
     },
     inputContainer: {
       paddingHorizontal: 8,
       borderRadius: 8,
-      backgroundColor: colors.elevated,
-    },
+      backgroundColor: colors.elevated
+    }
   }
 
   return (
@@ -110,7 +113,7 @@ const Search = ({ navigation }) => {
         <TouchableOpacity
           style={{
             alignSelf: 'center',
-            paddingLeft: 16,
+            paddingLeft: 16
           }}
           onPress={pasteLink}
         >
@@ -138,7 +141,6 @@ const Search = ({ navigation }) => {
           <Text variant='body' style={{ marginVertical: 16 }}>
             {item.title}
           </Text>
-
           <Text variant='subtitle' style={{ color: '#42a642' }}>
             {item.price}
           </Text>

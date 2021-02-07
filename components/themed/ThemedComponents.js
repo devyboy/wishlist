@@ -18,12 +18,12 @@ const customTextStyles = {
     fontWeight: '500'
   },
   body: {
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: '400',
     lineHeight: 23
   },
   subtitle: {
-    fontSize: 15,
+    fontSize: 17,
     fontWeight: '400'
   }
 }

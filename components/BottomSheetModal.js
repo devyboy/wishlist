@@ -72,12 +72,11 @@ const BottomSheetModal = ({
             <Divider />
             <Button
               label='Export Favorites'
-              icon='ios-share'
               onPress={shareFavs}
+              icon='ios-share'
             />
             <ClearButton
               label='Clear favorites'
-              icon='delete-outline'
               onPress={() =>
                 navigation.navigate('Modal', { clear: true, options: false })
               }
@@ -89,6 +88,7 @@ const BottomSheetModal = ({
             <Text variant='subheader' style={{ marginVertical: 8 }}>
               Clear favorites?
             </Text>
+            <Divider />
             <Text variant='body'>
               Are you sure you want to clear your saved items? This action is
               permanent.
@@ -98,7 +98,7 @@ const BottomSheetModal = ({
                 flexDirection: 'row',
                 flex: 1,
                 justifyContent: 'space-around',
-                marginTop: 24
+                marginTop: 8
               }}
             >
               <ClearButton label='Delete' onPress={clearFavs} />

@@ -21,66 +21,69 @@ app.get('/', (_req, res) => {
 
 app.get('/resolver/:txt(.?*)', (req, _res) => {
   if (validURL.isUri(req.params.txt)) {
-    fetch(req.params.txt).then((res) =>
-      res.text().then((html) => {
-        const dom = new JSDOM(html)
-        const doc = dom.window.document
+    fetch(req.params.txt)
+      .then((res) =>
+        res
+          .text()
+          .then((html) => {
+            const dom = new JSDOM(html)
+            const doc = dom.window.document
 
-        const title =
-          doc.querySelector('title') &&
-          doc.querySelector('title').textContent
-        const meta_title =
-          doc.querySelector(`meta[name="title"]`) &&
-          doc.querySelector(`meta[name="title"]`).content
-        const meta_description =
-          doc.querySelector(`meta[name="description"]`) &&
-          doc.querySelector(`meta[name="description"]`).content
-        const meta_keywords =
-          doc.querySelector(`meta[name="keywords"]`) &&
-          doc.querySelector(`meta[name="keywords"]`).content
-        const h1 =
-          doc.querySelector(`h1`) && doc.querySelector(`h1`).textContent
-        const h2 =
-          doc.querySelector(`h2`) && doc.querySelector(`h2`).textContent
-        const h3 =
-          doc.querySelector(`h3`) && doc.querySelector(`h3`).textContent
-        const h4 =
-          doc.querySelector(`h4`) && doc.querySelector(`h4`).textContent
-        const h5 =
-          doc.querySelector(`h5`) && doc.querySelector(`h5`).textContent
-        const h6 =
-          doc.querySelector(`h6`) && doc.querySelector(`h6`).textContent
-        const img = [...doc.querySelectorAll(`img`)]
-        const images = []
-        img.forEach((val) => {
-          images.push(val.src)
-        })
+            const title =
+              doc.querySelector('#productTitle') &&
+              doc.querySelector('#productTitle').textContent
+            const meta_title =
+              doc.querySelector(`meta[name="title"]`) &&
+              doc.querySelector(`meta[name="title"]`).content
+            const meta_description =
+              doc.querySelector(`meta[name="description"]`) &&
+              doc.querySelector(`meta[name="description"]`).content
+            const meta_keywords =
+              doc.querySelector(`meta[name="keywords"]`) &&
+              doc.querySelector(`meta[name="keywords"]`).content
+            const h1 =
+              doc.querySelector(`h1`) && doc.querySelector(`h1`).textContent
+            const h2 =
+              doc.querySelector(`h2`) && doc.querySelector(`h2`).textContent
+            const h3 =
+              doc.querySelector(`h3`) && doc.querySelector(`h3`).textContent
+            const h4 =
+              doc.querySelector(`h4`) && doc.querySelector(`h4`).textContent
+            const h5 =
+              doc.querySelector(`h5`) && doc.querySelector(`h5`).textContent
+            const h6 =
+              doc.querySelector(`h6`) && doc.querySelector(`h6`).textContent
+            const img = [...doc.querySelectorAll(`img`)]
+            const images = []
+            img.forEach((val) => {
+              images.push(val.src)
+            })
 
-        // TODO ignore svg paths etc, as well as handle case there are not any prices
-        const price = doc.body.innerHTML.match(
-          '(\\d+\\.\\d{1,2})')[0]
+            // TODO ignore svg paths etc, as well as handle case there are not any prices
+            const price = doc.body.innerHTML.match('(\\d+\\.\\d{1,2})')[0]
 
-
-        _res.send({
-          'title': title,
-          'meta': {
-            'title': meta_title,
-            'description': meta_description,
-            'keywords': meta_keywords,
-          },
-          'headers': {
-            'h1': h1,
-            'h2': h2,
-            'h3': h3,
-            'h4': h4,
-            'h5': h5,
-            'h6': h6,
-          },
-          'price': price,
-          'images': images,
-        })
-      }).catch((err) => console.error(err)),
-    ).catch((err) => console.error(err))
+            _res.send({
+              title: title,
+              meta: {
+                title: meta_title,
+                description: meta_description,
+                keywords: meta_keywords
+              },
+              headers: {
+                h1: h1,
+                h2: h2,
+                h3: h3,
+                h4: h4,
+                h5: h5,
+                h6: h6
+              },
+              price: price,
+              images: images
+            })
+          })
+          .catch((err) => console.error(err))
+      )
+      .catch((err) => console.error(err))
   } else {
     _res.status(400)
     _res.send('InvalidURL')
