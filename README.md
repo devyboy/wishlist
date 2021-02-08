@@ -11,4 +11,4 @@ Save all your items at the click of a button, it’s not wishful thinking, it’
 
 
 
-<sub><sup> While hundreds of more sites may be added soon, Wishlist currently only supports Amazon. </sup></sub>
+<sub><sup> While hundreds of more sites may be added soon, Wishlist currently only supports Amazon. Built with React Native, Express, and Node</sup></sub>
