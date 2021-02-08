@@ -1,15 +1,21 @@
 import React from 'react'
 import { useTheme } from '../contexts/ThemeContext'
 import { Text, Button, ClearButton, Divider } from './themed/ThemedComponents'
-import { View, TouchableWithoutFeedback } from 'react-native'
+import {
+  View,
+  TouchableWithoutFeedback,
+  Image,
+  Share,
+  ScrollView
+} from 'react-native'
 import BottomSheet from 'reanimated-bottom-sheet'
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import { Share } from 'react-native'
+import * as WebBrowser from 'expo-web-browser'
 
 const BottomSheetModal = ({
   navigation,
   route: {
-    params: { clear, options, favs, setItems }
+    params: { clear, options, favs, item, setItems }
   }
 }) => {
   const sheetRef = React.useRef(null)
@@ -24,13 +30,26 @@ const BottomSheetModal = ({
     AsyncStorage.removeItem('favorites').then(() => closeSheet())
   }
 
-  const shareFavs = () => {
+  const shareFavs = async () => {
+    const showNum = await AsyncStorage.getItem('showNumber').then((res) =>
+      JSON.parse(res)
+    )
+    const showPrice = await AsyncStorage.getItem('showPrice').then((res) =>
+      JSON.parse(res)
+    )
+    const showLink = await AsyncStorage.getItem('showLink').then((res) =>
+      JSON.parse(res)
+    )
+
     let formattedMessage = ''
 
-    favs.forEach(
-      (item, idx) =>
-        (formattedMessage += `${idx + 1}: ${item.title}: ${item.price}\n`)
-    )
+    favs.forEach((item, idx) => {
+      showNum ? (formattedMessage += `${idx + 1}: `) : null
+      formattedMessage += item.title
+      showPrice ? (formattedMessage += ` | ${item.price} `) : null
+      showLink ? (formattedMessage += ` | ${item.url}`) : null
+      formattedMessage += '\n\n'
+    })
 
     Share.share({ message: formattedMessage })
   }
@@ -64,6 +83,39 @@ const BottomSheetModal = ({
         }}
       >
         <DragHandle />
+        {item && (
+          <>
+            <Text variant='subheader'>View item</Text>
+            <Divider />
+            <ScrollView>
+              <Text variant='subtitle'>{item.category}</Text>
+              <Text variant='body' style={{ marginVertical: 8 }}>
+                {item.title}
+              </Text>
+              <Text variant='body' style={{ color: colors.success }}>
+                {item.price}
+              </Text>
+              <View style={styles.imageContainer}>
+                <Image
+                  resizeMode={'contain'}
+                  source={{
+                    uri: item.image
+                  }}
+                  style={styles.productImage}
+                />
+              </View>
+              <Text variant='subtitle' style={{ marginBottom: 8 }}>
+                About this item
+              </Text>
+              <Text variant='body'>{item.description}</Text>
+              <Button
+                style={{ marginVertical: 32 }}
+                label='View in browser'
+                onPress={() => WebBrowser.openBrowserAsync(item.url)}
+              />
+            </ScrollView>
+          </>
+        )}
         {options && (
           <>
             <Text variant='subheader' style={{ marginVertical: 8 }}>
@@ -126,13 +178,32 @@ const BottomSheetModal = ({
         initialSnap={1}
         borderRadius={16}
         onCloseEnd={closeSheet}
-        snapPoints={['40%', '40%', 0]}
+        snapPoints={item ? ['80%', '80%', 0] : ['40%', '40%', 0]}
         renderContent={renderContent}
         renderHeader={renderHeader}
         overdragResistanceFactor={0}
       />
     </View>
   )
+}
+
+const styles = {
+  productImage: {
+    height: 150,
+    width: 200,
+    alignSelf: 'center'
+  },
+  imageContainer: {
+    marginTop: 16,
+    marginBottom: 24,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 3
+    },
+    shadowOpacity: 0.2,
+    shadowRadius: 3
+  }
 }
 
 export default BottomSheetModal

@@ -1,6 +1,6 @@
 import cors from 'cors'
 import express from 'express'
-import bodyParser from 'body-parser'
+import DomParser from 'dom-parser'
 import fetch from 'node-fetch'
 import jsdom from 'jsdom'
 import validURL from 'valid-url'
@@ -11,10 +11,8 @@ const PORT = process.env.PORT || 8081
 
 const app = express()
 
-app.use(bodyParser.json())
 app.use(cors())
 
-// Default endpoint gives empty page
 app.get('/', (_req, res) => {
   res.send('🎉 Hello Wishlist! 🎉')
 })
@@ -26,60 +24,9 @@ app.get('/resolver/:txt(.?*)', (req, _res) => {
         res
           .text()
           .then((html) => {
-            const dom = new JSDOM(html)
-            const doc = dom.window.document
-
-            const title =
-              doc.querySelector('#productTitle') &&
-              doc.querySelector('#productTitle').textContent
-            const meta_title =
-              doc.querySelector(`meta[name="title"]`) &&
-              doc.querySelector(`meta[name="title"]`).content
-            const meta_description =
-              doc.querySelector(`meta[name="description"]`) &&
-              doc.querySelector(`meta[name="description"]`).content
-            const meta_keywords =
-              doc.querySelector(`meta[name="keywords"]`) &&
-              doc.querySelector(`meta[name="keywords"]`).content
-            const h1 =
-              doc.querySelector(`h1`) && doc.querySelector(`h1`).textContent
-            const h2 =
-              doc.querySelector(`h2`) && doc.querySelector(`h2`).textContent
-            const h3 =
-              doc.querySelector(`h3`) && doc.querySelector(`h3`).textContent
-            const h4 =
-              doc.querySelector(`h4`) && doc.querySelector(`h4`).textContent
-            const h5 =
-              doc.querySelector(`h5`) && doc.querySelector(`h5`).textContent
-            const h6 =
-              doc.querySelector(`h6`) && doc.querySelector(`h6`).textContent
-            const img = [...doc.querySelectorAll(`img`)]
-            const images = []
-            img.forEach((val) => {
-              images.push(val.src)
-            })
-
-            // TODO ignore svg paths etc, as well as handle case there are not any prices
-            const price = doc.body.innerHTML.match('(\\d+\\.\\d{1,2})')[0]
-
-            _res.send({
-              title: title,
-              meta: {
-                title: meta_title,
-                description: meta_description,
-                keywords: meta_keywords
-              },
-              headers: {
-                h1: h1,
-                h2: h2,
-                h3: h3,
-                h4: h4,
-                h5: h5,
-                h6: h6
-              },
-              price: price,
-              images: images
-            })
+            var parser = new DomParser()
+            var dom = parser.parseFromString(html)
+            _res.send({ ...amazonParser(dom), url: req.params.txt })
           })
           .catch((err) => console.error(err))
       )
@@ -91,3 +38,47 @@ app.get('/resolver/:txt(.?*)', (req, _res) => {
 })
 
 app.listen(PORT, () => console.log(`Example app listening on port ${PORT}!`))
+
+const grabAndMapByTag = (dom, html) => (tag) =>
+  dom.getElementsByTagName(tag).map((m) => m[html])
+
+const grabByID = (dom) => (id) => dom.getElementById(id)
+
+const amazonParser = (dom) => {
+  var [domOuter, domInner] = [
+    grabAndMapByTag(dom, 'outerHTML'),
+    grabAndMapByTag(dom, 'innerHTML')
+  ]
+  var domByID = grabByID(dom)
+
+  var price = domByID('priceblock_ourprice')
+    ? domByID('priceblock_ourprice').innerHTML
+    : domByID('priceblock_dealprice')
+    ? domByID('priceblock_dealprice').innerHTML
+    : dom.getElementsByClassName('a-color-price') // for books, could replace with ""
+    ? dom.getElementsByClassName('a-color-price')[0].innerHTML
+    : ''
+
+  const category = domByID('wayfinding-breadcrumbs_feature_div')
+    .getElementsByClassName('a-color-tertiary')[0]
+    .innerHTML.trim()
+
+  var title = dom.getElementById('productTitle').innerHTML.trim()
+
+  const description = domByID('feature-bullets')
+    ? domByID('feature-bullets')
+        .getElementsByClassName('a-list-item')[1]
+        ?.innerHTML.concat(
+          ` ${
+            domByID('feature-bullets').getElementsByClassName('a-list-item')[2]
+              .innerHTML
+          }`
+        )
+        .replace(/(\r\n|\n|\r)/gm, '')
+    : ''
+  const image = domByID('landingImage')
+    ? domByID('landingImage').getAttribute('data-old-hires')
+    : 'https://i1.wp.com/fremontgurdwara.org/wp-content/uploads/2020/06/no-image-icon-2.png'
+
+  return { title, category, price, image, description }
+}

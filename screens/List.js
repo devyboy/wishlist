@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, TouchableOpacity, FlatList } from 'react-native'
+import { View, TouchableOpacity, FlatList, Image } from 'react-native'
 import { MaterialIcons } from '@expo/vector-icons'
 import { useTheme } from '../contexts/ThemeContext'
 import {
@@ -30,22 +30,44 @@ const List = ({ navigation }) => {
     })
   }
 
-  const renderItem = ({ item, index }) => (
-    <Card>
-      <View style={{ flexDirection: 'row' }}>
-        <Text variant='subtitle' style={{ flex: 1 }}>
-          {item.category}
-        </Text>
-        <DeleteIcon index={index} favorites={items} setItems={setItems} />
-      </View>
-      <Text variant='body' style={{ marginBottom: 16, marginTop: 8 }}>
-        {item.title}
-      </Text>
+  const viewItem = (item) => {
+    navigation.navigate('Modal', { item })
+  }
 
-      <Text variant='subtitle' style={{ color: '#42a642' }}>
-        {item.price}
-      </Text>
-    </Card>
+  const renderItem = ({
+    item: { title, category, price, image, description, url },
+    index
+  }) => (
+    <TouchableOpacity
+      onPress={() =>
+        viewItem({ title, category, price, image, description, url })
+      }
+    >
+      <Card>
+        <View style={{ flexDirection: 'row' }}>
+          <Text variant='subtitle' style={{ flex: 1 }}>
+            {category}
+          </Text>
+          <DeleteIcon index={index} favorites={items} setItems={setItems} />
+        </View>
+        <Text variant='body' style={{ marginVertical: 8 }} numberOfLines={2}>
+          {title}
+        </Text>
+
+        <Text variant='subtitle' style={{ color: '#42a642' }}>
+          {price}
+        </Text>
+        <View style={styles.imageContainer}>
+          <Image
+            resizeMode={'contain'}
+            source={{
+              uri: image
+            }}
+            style={styles.productImage}
+          />
+        </View>
+      </Card>
+    </TouchableOpacity>
   )
 
   return (
@@ -53,7 +75,7 @@ const List = ({ navigation }) => {
       <StatusBar style={isDark ? 'dark' : 'light'} />
       <View style={{ flexDirection: 'row' }}>
         <Text variant='header' style={{ flex: 1 }}>
-          Wishlist
+          Saved
         </Text>
         {items && (
           <TouchableOpacity
@@ -81,6 +103,24 @@ const List = ({ navigation }) => {
       )}
     </Layout>
   )
+}
+
+const styles = {
+  productImage: {
+    height: 150,
+    width: 200,
+    alignSelf: 'center'
+  },
+  imageContainer: {
+    marginVertical: 16,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 3
+    },
+    shadowOpacity: 0.2,
+    shadowRadius: 3
+  }
 }
 
 export default List

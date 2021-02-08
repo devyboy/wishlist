@@ -1,20 +1,15 @@
 import React from 'react'
-import { View, ActivityIndicator, TouchableOpacity } from 'react-native'
+import { View, ActivityIndicator, TouchableOpacity, Image } from 'react-native'
 import { useTheme } from '../contexts/ThemeContext'
 import { SearchBar } from 'react-native-elements'
-import {
-  Text,
-  Layout,
-  Divider,
-  Button,
-  Card
-} from '../components/themed/ThemedComponents'
+import { Text, Layout, Divider } from '../components/themed/ThemedComponents'
 import { StatusBar } from 'expo-status-bar'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { MaterialIcons } from '@expo/vector-icons'
 import Clipboard from 'expo-clipboard'
+import ProductCard from '../components/ProductCard'
 
-const Search = ({ navigation }) => {
+const Search = () => {
   const [searchVal, setSearchVal] = React.useState()
   const [loading, setLoading] = React.useState(false)
   const [item, setItem] = React.useState()
@@ -27,21 +22,19 @@ const Search = ({ navigation }) => {
     setLoading(true)
     fetch(`http://localhost:8081/resolver/${url}`)
       .then((res) =>
-        res.json().then((res) => {
-          console.log(res)
-          // const category = metaTitle.slice(
-          //   metaTitle.lastIndexOf(':') + 2,
-          //   metaTitle.length + 1
-          // )
-
-          // setLoading(false)
-          // setItem({
-          //   title: title.trim(),
-          //   description,
-          //   category,
-          //   price
-          // })
-        })
+        res
+          .json()
+          .then(({ title, category, description, price, image, url }) => {
+            setLoading(false)
+            setItem({
+              title,
+              category,
+              description,
+              price,
+              image,
+              url
+            })
+          })
       )
       .catch((err) => {
         console.log(err)
@@ -87,6 +80,20 @@ const Search = ({ navigation }) => {
       paddingHorizontal: 8,
       borderRadius: 8,
       backgroundColor: colors.elevated
+    },
+    productImage: {
+      height: 150,
+      width: 200,
+      alignSelf: 'center'
+    },
+    imageContainer: {
+      shadowColor: '#000',
+      shadowOffset: {
+        width: 0,
+        height: 3
+      },
+      shadowOpacity: 0.2,
+      shadowRadius: 3
     }
   }
 
@@ -135,23 +142,7 @@ const Search = ({ navigation }) => {
         </View>
       )}
 
-      {item && (
-        <Card>
-          <Text variant='subtitle'>{item.category}</Text>
-          <Text variant='body' style={{ marginVertical: 16 }}>
-            {item.title}
-          </Text>
-          <Text variant='subtitle' style={{ color: '#42a642' }}>
-            {item.price}
-          </Text>
-          <Button
-            noMargin
-            label={saved ? 'Saved' : 'Save item'}
-            onPress={addToFavorites}
-            disabled={saved}
-          />
-        </Card>
-      )}
+      {item && <ProductCard {...{ ...item, saved, addToFavorites }} />}
     </Layout>
   )
 }

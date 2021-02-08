@@ -3,6 +3,9 @@ import { SafeAreaProvider } from 'react-native-safe-area-context'
 import { ThemeProvider } from './contexts/ThemeContext'
 import useCachedResources from './hooks/useCachedResources'
 import Navigation from './navigation'
+import { LogBox } from 'react-native'
+
+LogBox.ignoreAllLogs()
 
 const App = () => {
   const isLoadingComplete = useCachedResources()

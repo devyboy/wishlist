@@ -12,7 +12,7 @@ const DeleteIcon = ({ index, favorites, setItems }) => {
     if (tapped) {
       if (favorites.length === 1) {
         AsyncStorage.removeItem('favorites')
-        setItems()
+        setItems(null)
       } else {
         const newFavs = favorites.filter((x, idx) => idx !== index)
         setItems(newFavs)

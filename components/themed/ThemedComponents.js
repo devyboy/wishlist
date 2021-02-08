@@ -14,7 +14,7 @@ const customTextStyles = {
     fontWeight: '500'
   },
   subheader: {
-    fontSize: 25,
+    fontSize: 30,
     fontWeight: '500'
   },
   body: {
@@ -23,7 +23,7 @@ const customTextStyles = {
     lineHeight: 23
   },
   subtitle: {
-    fontSize: 17,
+    fontSize: 16,
     fontWeight: '400'
   }
 }
