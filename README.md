@@ -1,8 +1,9 @@
-#Wishlist is a shopper's dream! It’s a one-stop application that easily submits and saves future online purchases.
+# Wishlist is a shopper's dream! 
+It’s a one-stop application that easily submits and saves future online purchases.
 
 How does it work? 
 
-1.Grab a site’s URL and submit it to Wishlist.
+1. Grab a site’s URL and submit it to Wishlist.
 
 That’s it! After saving the product, Wishlist will create an entry in your (future) shopping cart using information directly from the URL’s web page. 
 
